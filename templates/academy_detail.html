@@ -1,0 +1,411 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .detail-header {
+        margin-bottom: 50px;
+        animation: slideDown 0.6s ease;
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--primary-light);
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 24px;
+        transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+        gap: 14px;
+        color: var(--text-main);
+    }
+
+    .course-header {
+        background: var(--card-bg);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        padding: 40px;
+        margin-bottom: 40px;
+        border-left: 5px solid var(--primary-light);
+    }
+
+    .course-icon {
+        font-size: 3rem;
+        background: linear-gradient(135deg, var(--primary-light), var(--accent-green));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 20px;
+    }
+
+    .course-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 12px;
+    }
+
+    .course-meta {
+        display: flex;
+        gap: 24px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-secondary);
+    }
+
+    .meta-item i {
+        color: var(--primary-light);
+    }
+
+    .procedures-grid {
+        display: grid;
+        gap: 20px;
+    }
+
+    .procedure-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 28px;
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .procedure-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+        transition: left 0.5s ease;
+        pointer-events: none;
+    }
+
+    .procedure-card:hover::before {
+        left: 100%;
+    }
+
+    .procedure-card:hover {
+        border-color: var(--primary-light);
+        transform: translateX(8px);
+        box-shadow: 0 12px 28px rgba(0, 212, 255, 0.2);
+    }
+
+    .procedure-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 16px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .procedure-number {
+        background: linear-gradient(135deg, var(--primary-light), var(--accent-green));
+        color: #000;
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .procedure-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--text-main);
+        margin: 0;
+    }
+
+    .procedure-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .procedure-description {
+        color: var(--text-secondary);
+        margin-bottom: 16px;
+        line-height: 1.6;
+    }
+
+    .duration-badge {
+        display: inline-block;
+        background: rgba(0, 212, 255, 0.15);
+        color: var(--primary-light);
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .difficulty-badge {
+        display: inline-block;
+        margin-left: 12px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .difficulty-badge.beginner {
+        background: rgba(46, 204, 113, 0.15);
+        color: #2ecc71;
+    }
+
+    .difficulty-badge.intermediate {
+        background: rgba(241, 196, 15, 0.15);
+        color: #f1c40f;
+    }
+
+    .difficulty-badge.advanced {
+        background: rgba(231, 76, 60, 0.15);
+        color: #e74c3c;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 60px 0 30px 0;
+        position: relative;
+        padding-bottom: 16px;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-light), var(--accent-green));
+        border-radius: 2px;
+    }
+</style>
+
+<a href="/academy/" class="back-button">
+    <i class="fas fa-arrow-left"></i>
+    <span>Back to Academy</span>
+</a>
+
+<div class="course-header">
+    <div class="course-icon">
+        <i class="fas fa-book-medical"></i>
+    </div>
+    <h1 class="course-title" style="background: none; -webkit-text-fill-color: unset; color: var(--text-main); margin-bottom: 0;">{{ course_name }}</h1>
+    <p style="color: var(--text-secondary); margin: 12px 0 0 0; font-size: 1.1rem;">Master essential medical procedures and techniques</p>
+    
+    <div class="course-meta">
+        <div class="meta-item">
+            <i class="fas fa-graduation-cap"></i>
+            <span>12 Procedures</span>
+        </div>
+        <div class="meta-item">
+            <i class="fas fa-clock"></i>
+            <span>6-8 hours</span>
+        </div>
+        <div class="meta-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Beginner to Advanced</span>
+        </div>
+        <div class="meta-item">
+            <i class="fas fa-star"></i>
+            <span>4.9/5 Rating</span>
+        </div>
+    </div>
+</div>
+
+<h2 class="section-title">Available Procedures</h2>
+
+<div class="procedures-grid">
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">1</div>
+            <h3 class="procedure-title">Introduction & Safety Protocols</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Learn the fundamental safety protocols and equipment handling procedures before starting any medical intervention.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 15 min</span>
+                <span class="difficulty-badge beginner"><i class="fas fa-leaf"></i> Beginner</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">2</div>
+            <h3 class="procedure-title">Vital Signs Assessment</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Master the techniques for measuring blood pressure, heart rate, temperature, and respiratory rate accurately.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 22 min</span>
+                <span class="difficulty-badge beginner"><i class="fas fa-leaf"></i> Beginner</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">3</div>
+            <h3 class="procedure-title">Venipuncture (Blood Drawing)</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Comprehensive training on proper blood drawing techniques, sample handling, and patient safety considerations.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 28 min</span>
+                <span class="difficulty-badge intermediate"><i class="fas fa-cubes"></i> Intermediate</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">4</div>
+            <h3 class="procedure-title">IV Line Insertion</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Step-by-step guidance on establishing peripheral IV access, catheter selection, and catheter care.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 32 min</span>
+                <span class="difficulty-badge intermediate"><i class="fas fa-cubes"></i> Intermediate</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">5</div>
+            <h3 class="procedure-title">ECG (Electrocardiogram) Testing</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Learn to perform and interpret ECGs, understand electrode placement, and identify common abnormalities.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 35 min</span>
+                <span class="difficulty-badge intermediate"><i class="fas fa-cubes"></i> Intermediate</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">6</div>
+            <h3 class="procedure-title">Wound Suturing Techniques</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Master various suturing techniques, wound closure methods, and post-operative wound care management.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 40 min</span>
+                <span class="difficulty-badge intermediate"><i class="fas fa-cubes"></i> Intermediate</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">7</div>
+            <h3 class="procedure-title">Intramuscular Injections</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Proper technique for administering IM injections, site selection, angle of insertion, and patient positioning.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 18 min</span>
+                <span class="difficulty-badge beginner"><i class="fas fa-leaf"></i> Beginner</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">8</div>
+            <h3 class="procedure-title">Catheterization Procedures</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Complete training on urinary catheter insertion, catheter care, and management of catheterized patients.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 26 min</span>
+                <span class="difficulty-badge intermediate"><i class="fas fa-cubes"></i> Intermediate</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">9</div>
+            <h3 class="procedure-title">Patient Positioning</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Learn correct patient positioning for various medical procedures and examination techniques.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 20 min</span>
+                <span class="difficulty-badge beginner"><i class="fas fa-leaf"></i> Beginner</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">10</div>
+            <h3 class="procedure-title">Sterile Technique & Hand Washing</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Comprehensive guide to maintaining sterile fields and proper hand hygiene in clinical settings.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 16 min</span>
+                <span class="difficulty-badge beginner"><i class="fas fa-leaf"></i> Beginner</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">11</div>
+            <h3 class="procedure-title">Advanced Diagnostics</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Introduction to advanced diagnostic procedures, ultrasound basics, and imaging interpretation fundamentals.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 45 min</span>
+                <span class="difficulty-badge advanced"><i class="fas fa-fire"></i> Advanced</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="procedure-card">
+        <div class="procedure-header">
+            <div class="procedure-number">12</div>
+            <h3 class="procedure-title">Emergency Response Protocols</h3>
+        </div>
+        <div class="procedure-content">
+            <p class="procedure-description">Critical procedures for emergency situations, CPR, and life-saving techniques that every medical professional should know.</p>
+            <div>
+                <span class="duration-badge"><i class="fas fa-play-circle"></i> 50 min</span>
+                <span class="difficulty-badge advanced"><i class="fas fa-fire"></i> Advanced</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

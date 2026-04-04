@@ -1,0 +1,451 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .academy-header {
+        margin-bottom: 40px;
+        
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .academy-card {
+        cursor: pointer;
+        position: relative;
+        text-decoration: none;
+        display: block;
+        group: card;
+    }
+
+    .card-image-container {
+        aspect-ratio: 16/9;
+        background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(30, 159, 143, 0.1));
+        border-radius: 14px;
+        margin-bottom: 16px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .bento-card:hover .card-image-container {
+        transform: scale(1.08);
+    }
+
+
+    .card-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .bento-card:hover .card-image-container img {
+        transform: scale(1.1);
+    }
+
+    .card-icon {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        background: var(--primary-light);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 16px rgba(0, 212, 255, 0.3);
+    }
+
+    .bento-card:hover .card-icon {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .card-icon i {
+        color: #000;
+        font-size: 1.2rem;
+    }
+
+    .academy-card h4 {
+        margin: 0 0 8px 0;
+        font-size: 1.2rem;
+        color: var(--text-main);
+    }
+
+    .academy-card p {
+        margin-bottom: 12px;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 12px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .watch-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--primary-light);
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .watch-link:hover {
+        gap: 10px;
+        color: var(--text-main);
+    }
+
+    .duration-badge {
+        background: rgba(0, 212, 255, 0.15);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        color: var(--primary-light);
+        font-weight: 500;
+    }
+
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 20px;
+        background: var(--card-bg);
+        backdrop-filter: blur(15px);
+        border: 1px dashed var(--border-color);
+        border-radius: 18px;
+    }
+
+    .empty-state i {
+        font-size: 3rem;
+        color: var(--primary-light);
+        margin-bottom: 20px;
+        opacity: 0.5;
+    }
+
+    .empty-state p {
+        font-size: 1rem;
+        color: var(--text-secondary);
+    }
+</style>
+
+<div class="academy-header">
+    <h1>Swift Academy</h1>
+    <p style="color: var(--text-secondary); font-size: 1rem;">Learn from industry experts and enhance your medical knowledge</p>
+</div>
+
+<div class="bento-grid">
+    {% for tutorial in tutorials %}
+    {% if 'cardio' in tutorial.title|lower or 'heart' in tutorial.title|lower or 'cardiac' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/cardio.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);">
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'neuro' in tutorial.title|lower or 'brain' in tutorial.title|lower or 'spine' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/neuro.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'ortho' in tutorial.title|lower or 'bone' in tutorial.title|lower or 'fracture' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/ortho.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'surgery' in tutorial.title|lower or 'surgical' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/surgery.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'pediatric' in tutorial.title|lower or 'child' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/pediatric.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'oncology' in tutorial.title|lower or 'cancer' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/oncology.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'respiratory' in tutorial.title|lower or 'lung' in tutorial.title|lower or 'pulmonary' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/respiratory.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'gastro' in tutorial.title|lower or 'digestive' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/gastro.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'dermatology' in tutorial.title|lower or 'skin' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/dermatology.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'ophthalmology' in tutorial.title|lower or 'eye' in tutorial.title|lower or 'vision' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/ophthalmology.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'manual' in tutorial.title|lower or 'trident' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/manual.png' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'hospital' in tutorial.title|lower or 'workflow' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/hospital_workflow.png' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'first aid' in tutorial.title|lower or 'cpr' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/first_aid.png' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'emergency' in tutorial.title|lower or 'trauma' in tutorial.title|lower or 'emt' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/emergency.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% elif 'dental' in tutorial.title|lower or 'tooth' in tutorial.title|lower or 'dentistry' in tutorial.title|lower %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/first_aid.png' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% else %}
+        <a href="/academy/{{ tutorial.id|default:'procedures' }}/" class="bento-card academy-card">
+            <div class="card-image-container">
+                <img src="{% static 'images/procedures/default.jpg' %}" alt="{{ tutorial.title }}" style="filter: brightness(0.85) contrast(1.1);"> 
+                <div class="card-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+            <h4>{{ tutorial.title }}</h4>
+            <p style="margin: 8px 0 12px 0;">{{ tutorial.description|truncatechars:65 }}</p>
+            <div class="card-footer">
+                <div class="watch-link">
+                    <i class="fas fa-play"></i>
+                    <span>View Procedures</span>
+                </div>
+                <span class="duration-badge">12 Lessons</span>
+            </div>
+        </a>
+    {% endif %}
+    {% empty %}
+    <div class="empty-state">
+        <i class="fas fa-video"></i>
+        <p><strong>No tutorials yet</strong></p>
+        <p style="margin-top: 8px; font-size: 0.95rem;">Upload videos via the admin panel to see them here!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
