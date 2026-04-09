@@ -1,0 +1,415 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        padding: 10px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-bottom: 24px;
+        transition: all 0.2s ease;
+    }
+
+    .back-button:hover {
+        background: var(--card-bg-hover);
+        border-color: var(--primary-light);
+    }
+
+    .course-header {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 40px;
+        margin-bottom: 40px;
+        border-left: 5px solid var(--primary-light);
+    }
+
+    .course-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin-bottom: 16px;
+        color: var(--text-main);
+    }
+
+    .course-meta {
+        display: flex;
+        gap: 24px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-secondary);
+    }
+
+    .meta-item i {
+        color: var(--primary-light);
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin: 40px 0 24px 0;
+        color: var(--text-main);
+    }
+
+    .lesson-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+        transition: all 0.2s ease;
+    }
+
+    .lesson-card:hover {
+        border-color: var(--primary-light);
+        background: var(--card-bg-hover);
+    }
+
+    .lesson-header {
+        display: flex;
+        align-items: start;
+        gap: 16px;
+        margin-bottom: 12px;
+    }
+
+    .lesson-number {
+        background: var(--primary-light);
+        color: #000;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .lesson-info {
+        flex: 1;
+    }
+
+    .lesson-title {
+        margin: 0 0 8px 0;
+        color: var(--text-main);
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .lesson-description {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 12px;
+    }
+
+    .lesson-meta {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(233, 213, 255, 0.08);
+        color: var(--text-secondary);
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+    }
+
+    .btn-start {
+        background: var(--primary-light);
+        color: #000;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .btn-start:hover {
+        background: var(--text-main);
+    }
+
+    .progress-container {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 40px;
+    }
+
+    .progress-bar {
+        background: rgba(233, 213, 255, 0.1);
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 12px;
+    }
+
+    .progress-fill {
+        background: var(--primary-light);
+        height: 100%;
+        width: 25%;
+        transition: width 0.3s ease;
+    }
+
+    .key-topics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+    }
+
+    .topic-item {
+        background: rgba(233, 213, 255, 0.08);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 16px;
+        text-align: center;
+    }
+
+    .topic-icon {
+        font-size: 2rem;
+        margin-bottom: 8px;
+    }
+
+    .topic-name {
+        color: var(--text-main);
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+        .lesson-header {
+            flex-direction: column;
+        }
+
+        .course-meta {
+            flex-direction: column;
+            gap: 12px;
+        }
+    }
+</style>
+
+<a href="/academy/" class="back-button">
+    <i class="fas fa-arrow-left"></i> Back to Academy
+</a>
+
+<div class="course-header">
+    <h1 class="course-title">Advanced Diagnostic Systems</h1>
+    <p style="color: var(--text-secondary); margin: 12px 0 0 0; font-size: 1.05rem;">Master modern medical diagnostic equipment and interpretation</p>
+    
+    <div class="course-meta">
+        <div class="meta-item">
+            <i class="fas fa-graduation-cap"></i>
+            <span>10 Lessons</span>
+        </div>
+        <div class="meta-item">
+            <i class="fas fa-clock"></i>
+            <span>6-7 hours</span>
+        </div>
+        <div class="meta-item">
+            <i class="fas fa-user-check"></i>
+            <span>1,850 Enrolled</span>
+        </div>
+        <div class="meta-item">
+            <i class="fas fa-star"></i>
+            <span>4.8/5</span>
+        </div>
+    </div>
+</div>
+
+<div class="progress-container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <div style="color: var(--text-main); font-weight: 600;">Your Progress</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">Completed 2 of 10 lessons</div>
+        </div>
+        <div style="color: var(--primary-light); font-size: 1.4rem; font-weight: 700;">25%</div>
+    </div>
+    <div class="progress-bar">
+        <div class="progress-fill"></div>
+    </div>
+</div>
+
+<h2 class="section-title">Key Topics Covered</h2>
+<div class="key-topics">
+    <div class="topic-item">
+        <div class="topic-icon">📡</div>
+        <div class="topic-name">ECG Analysis</div>
+    </div>
+    <div class="topic-item">
+        <div class="topic-icon">🔬</div>
+        <div class="topic-name">Ultrasound</div>
+    </div>
+    <div class="topic-item">
+        <div class="topic-icon">💻</div>
+        <div class="topic-name">CT Scanning</div>
+    </div>
+    <div class="topic-item">
+        <div class="topic-icon">🧬</div>
+        <div class="topic-name">Lab Analysis</div>
+    </div>
+</div>
+
+<h2 class="section-title">Lessons</h2>
+
+<div class="lesson-card" style="opacity: 0.6;">
+    <div class="lesson-header">
+        <div class="lesson-number">✓</div>
+        <div class="lesson-info">
+            <h4 class="lesson-title">Introduction to Diagnostic Equipment</h4>
+            <div class="lesson-description">Overview of modern diagnostic tools and equipment setup</div>
+            <div class="lesson-meta">
+                <span class="badge"><i class="fas fa-clock"></i> 18 min</span>
+                <span class="badge">Completed</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="lesson-card" style="opacity: 0.6;">
+    <div class="lesson-header">
+        <div class="lesson-number">✓</div>
+        <div class="lesson-info">
+            <h4 class="lesson-title">ECG - Electrocardiogram Basics</h4>
+            <div class="lesson-description">Understanding cardiac electrical activity and reading ECG strips</div>
+            <div class="lesson-meta">
+                <span class="badge"><i class="fas fa-clock"></i> 32 min</span>
+                <span class="badge">Completed</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="lesson-card">
+    <div class="lesson-header">
+        <div class="lesson-number">3</div>
+        <div class="lesson-info">
+            <h4 class="lesson-title">Advanced ECG Interpretation</h4>
+            <div class="lesson-description">Recognizing abnormalities and cardiac pathologies on ECG</div>
+            <div class="lesson-meta">
+                <span class="badge"><i class="fas fa-clock"></i> 40 min</span>
+                <span class="badge" style="background: rgba(251, 191, 36, 0.15); color: var(--accent-green);">In Progress</span>
+            </div>
+        </div>
+        <button class="btn-start" onclick="alert('Start lesson: Advanced ECG')">Start</button>
+    </div>
+</div>
+
+<div class="lesson-card">
+    <div class="lesson-header">
+        <div class="lesson-number">4</div>
+        <div class="lesson-info">
+            <h4 class="lesson-title">Ultrasound Technology & Usage</h4>
+            <div class="lesson-description">Fundamentals of ultrasound imaging and probe handling</div>
+            <div class="lesson-meta">
+                <span class="badge"><i class="fas fa-clock"></i> 38 min</span>
+                <span class="badge" style="background: rgba(148, 163, 184, 0.15); color: var(--text-secondary);">Locked</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="lesson-card">
+    <div class="lesson-header">
+        <div class="lesson-number">5</div>
+        <div class="lesson-info">
+            <h4 class="lesson-title">CT Scanning Principles</h4>
+            <div class="lesson-description">Understanding computed tomography and image reconstruction</div>
+            <div class="lesson-meta">
+                <span class="badge"><i class="fas fa-clock"></i> 36 min</span>
+                <span class="badge" style="background: rgba(148, 163, 184, 0.15); color: var(--text-secondary);">Locked</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="lesson-card">
+    <div class="lesson-header">
+        <div class="lesson-number">6</div>
+        <div class="lesson-info">
+            <h4 class="lesson-title">MRI Fundamentals</h4>
+            <div class="lesson-description">Magnetic resonance imaging basics and safety protocols</div>
+            <div class="lesson-meta">
+                <span class="badge"><i class="fas fa-clock"></i> 35 min</span>
+                <span class="badge" style="background: rgba(148, 163, 184, 0.15); color: var(--text-secondary);">Locked</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="lesson-card">
+    <div class="lesson-header">
+        <div class="lesson-number">7</div>
+        <div class="lesson-info">
+            <h4 class="lesson-title">Laboratory Testing & Analysis</h4>
+            <div class="lesson-description">Understanding blood tests, cultures, and lab result interpretation</div>
+            <div class="lesson-meta">
+                <span class="badge"><i class="fas fa-clock"></i> 42 min</span>
+                <span class="badge" style="background: rgba(148, 163, 184, 0.15); color: var(--text-secondary);">Locked</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="lesson-card">
+    <div class="lesson-header">
+        <div class="lesson-number">8</div>
+        <div class="lesson-info">
+            <h4 class="lesson-title">Equipment Maintenance & Safety</h4>
+            <div class="lesson-description">Proper care, sterilization, and safety protocols for diagnostic equipment</div>
+            <div class="lesson-meta">
+                <span class="badge"><i class="fas fa-clock"></i> 25 min</span>
+                <span class="badge" style="background: rgba(148, 163, 184, 0.15); color: var(--text-secondary);">Locked</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="lesson-card">
+    <div class="lesson-header">
+        <div class="lesson-number">9</div>
+        <div class="lesson-info">
+            <h4 class="lesson-title">Troubleshooting Common Issues</h4>
+            <div class="lesson-description">Identifying and solving equipment malfunctions</div>
+            <div class="lesson-meta">
+                <span class="badge"><i class="fas fa-clock"></i> 30 min</span>
+                <span class="badge" style="background: rgba(148, 163, 184, 0.15); color: var(--text-secondary);">Locked</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="lesson-card">
+    <div class="lesson-header">
+        <div class="lesson-number">10</div>
+        <div class="lesson-info">
+            <h4 class="lesson-title">Case Studies & Practical Scenarios</h4>
+            <div class="lesson-description">Real-world diagnostic cases and decision-making exercises</div>
+            <div class="lesson-meta">
+                <span class="badge"><i class="fas fa-clock"></i> 45 min</span>
+                <span class="badge" style="background: rgba(148, 163, 184, 0.15); color: var(--text-secondary);">Locked</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

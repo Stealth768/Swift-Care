@@ -18,3 +18,12 @@ def tutorial_detail(request, tutorial_id=1):
     course_name = tutorials.get(tutorial_id, 'Medical Training Course')
     
     return render(request, 'academy_detail.html', {'course_name': course_name})
+
+def tutorial_first_aid(request):
+    return render(request, 'tutorial_first_aid.html')
+
+def tutorial_diagnostic(request):
+    return render(request, 'tutorial_diagnostic.html')
+
+def tutorial_operations(request):
+    return render(request, 'tutorial_operations.html')

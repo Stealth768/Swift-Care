@@ -9,18 +9,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #00d4ff 0%, #0099cc 25%, #1e9f8f 50%, #2bb88a 75%, #00d4ff 100%);
-            --primary-light: #59fff9;
-            --primary-dark: #0bece0;
-            --accent-green: #1e9f8f;
+            --primary-gradient: linear-gradient(135deg, #a78bfa 0%, #c084fc 100%);
+            --primary-light: #e9d5ff;
+            --primary-dark: #d8b4fe;
+            --accent-green: #fbbf24;
             --sos-red: #ff4b4b;
             --sos-glow: #ff0000;
-            --text-main: #e6edf3;
-            --text-secondary: #1A1A1A;
-            --card-bg: rgba(255, 255, 255, 0.08);
-            --card-bg-hover: rgba(255, 255, 255, 0.12);
-            --border-color: rgba(255, 255, 255, 0.15);
-            --border-text:rgb(0, 0, 0);
+            --text-main: #f5f3ff;
+            --text-secondary: #e9d5ff;
+            --card-bg: rgba(139, 92, 246, 0.12);
+            --card-bg-hover: rgba(168, 85, 247, 0.18);
+            --border-color: rgba(196, 181, 253, 0.25);
+            --border-text: rgb(0, 0, 0);
         }
 
         * {
@@ -892,7 +892,7 @@
             });
         });
 
-        // Chatbot functionality
+        
         function toggleChatbot() {
             const modal = document.getElementById('chatbotModal');
             modal.classList.toggle('active');
@@ -909,23 +909,23 @@
 
             const messagesContainer = document.getElementById('chatMessages');
             
-            // Add user message
+            
             const userMsgDiv = document.createElement('div');
             userMsgDiv.classList.add('message', 'user');
             userMsgDiv.innerHTML = `<div class="message-text">${message}</div>`;
             messagesContainer.appendChild(userMsgDiv);
             
-            // Clear input
+           
             input.value = '';
             
-            // Scroll to bottom
+            
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
-            // Disable send button
+           
             const sendBtn = document.getElementById('sendBtn');
             sendBtn.disabled = true;
 
-            // Send to API
+            
             fetch('/api/chat/', {
                 method: 'POST',
                 headers: {
@@ -936,7 +936,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Add bot message
+                
                 const botMsgDiv = document.createElement('div');
                 botMsgDiv.classList.add('message', 'bot');
                 botMsgDiv.innerHTML = `<div class="message-text">${data.reply || data.error}</div>`;

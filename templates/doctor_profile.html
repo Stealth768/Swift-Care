@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .profile-header {
+        margin-bottom: 40px;
+    }
+
+    .back-button {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+        margin-bottom: 24px;
+    }
+
+    .back-button:hover {
+        background: var(--card-bg-hover);
+        border-color: var(--primary-light);
+    }
+
+    .profile-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 40px;
+        margin-bottom: 40px;
+    }
+
+    .profile-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 32px;
+        text-align: center;
+        height: fit-content;
+    }
+
+    .profile-image-large {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 3px solid var(--primary-light);
+        object-fit: cover;
+        margin: 0 auto 20px;
+        box-shadow: 0 8px 24px rgba(233, 213, 255, 0.2);
+    }
+
+    .status-badge {
+        display: inline-block;
+        background: #10b981;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: 12px;
+    }
+
+    .status-badge.unavailable {
+        background: #6b7280;
+    }
+
+    .profile-info {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 32px;
+    }
+
+    .info-section {
+        margin-bottom: 28px;
+    }
+
+    .info-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .info-value {
+        color: var(--text-main);
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+
+    .rating-large {
+        font-size: 1.8rem;
+        color: var(--accent-green);
+        margin-right: 8px;
+    }
+
+    .divider {
+        height: 1px;
+        background: var(--border-color);
+        margin: 28px 0;
+    }
+
+    .action-buttons-profile {
+        display: flex;
+        gap: 16px;
+        margin-top: 32px;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 14px 24px;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: 'Poppins', sans-serif;
+        font-size: 0.95rem;
+    }
+
+    .btn-primary {
+        background: var(--primary-light);
+        color: #000;
+    }
+
+    .btn-primary:hover {
+        background: var(--text-main);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        border: 1.5px solid var(--border-color);
+        color: var(--text-main);
+    }
+
+    .btn-secondary:hover {
+        background: var(--card-bg);
+        border-color: var(--primary-light);
+    }
+
+    .experience-item {
+        padding: 16px 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .experience-item:last-child {
+        border-bottom: none;
+    }
+
+    .experience-title {
+        color: var(--text-main);
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .experience-subtitle {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+        .profile-container {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<a href="/dashboard/" class="back-button">
+    <i class="fas fa-arrow-left"></i> Back to Doctors
+</a>
+
+<div class="profile-header">
+    <h1>Doctor Profile</h1>
+</div>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <img src="{{ doctor.image }}" alt="{{ doctor.name }}" class="profile-image-large">
+        <h2>{{ doctor.name }}</h2>
+        <p style="color: var(--primary-light); font-weight: 600; margin: 8px 0 0 0;">{{ doctor.specialty }}</p>
+        <div class="status-badge {% if doctor.status != 'Available' %}unavailable{% endif %}">
+            {{ doctor.status }}
+        </div>
+    </div>
+
+    <div class="profile-info">
+        <div class="info-section">
+            <div class="info-label">Rating</div>
+            <div class="info-value">
+                <span class="rating-large">★</span>
+                {{ doctor.rating }} / 5.0 ({{ doctor.reviews }} reviews)
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="info-section">
+            <div class="info-label">Experience</div>
+            <div class="experience-item">
+                <div class="experience-title">Chief Specialist</div>
+                <div class="experience-subtitle">Multi-Specialty Hospital • 8 years</div>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Senior Doctor</div>
+                <div class="experience-subtitle">City Medical Center • 5 years</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="info-section">
+            <div class="info-label">Qualifications</div>
+            <div class="experience-item">
+                <div class="experience-title">MD - Internal Medicine</div>
+                <div class="experience-subtitle">Delhi Medical College</div>
+            </div>
+            <div class="experience-item">
+                <div class="experience-title">Diploma in {{ doctor.specialty }}</div>
+                <div class="experience-subtitle">All India Institute of Medical Sciences</div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="info-section">
+            <div class="info-label">Consultation Fee</div>
+            <div class="info-value">₹500 - ₹1000</div>
+        </div>
+
+        <div class="action-buttons-profile">
+            <button class="btn btn-primary" onclick="window.location.href='/consultation/?doctor={{ doctor.id }}'">
+                <i class="fas fa-calendar"></i> Book Consultation
+            </button>
+            <button class="btn btn-secondary">
+                <i class="fas fa-message"></i> Send Message
+            </button>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 60px;">
+    <h2 style="margin-bottom: 32px; color: var(--text-main);">Patient Reviews</h2>
+    <div style="display: grid; gap: 20px;">
+        {% for review in doctor.reviews_list %}
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+                <div>
+                    <div style="color: var(--text-main); font-weight: 600; margin-bottom: 4px;">{{ review.author }}</div>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem;">{{ review.date }}</div>
+                </div>
+                <div style="color: var(--accent-green); font-size: 1.2rem;">
+                    {% for i in review.rating_stars %}★{% endfor %}
+                </div>
+            </div>
+            <p style="color: var(--text-secondary); line-height: 1.6; margin: 0;">{{ review.text }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
